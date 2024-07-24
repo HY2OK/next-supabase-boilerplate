@@ -1,22 +1,26 @@
-'use client';
+'use client'
 
-import { Button } from '@/components/ui/button';
-import { KeyRound } from 'lucide-react';
-import React from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import { FaGithub } from 'react-icons/fa';
-import { supabaseClient } from '@/lib/supabase/client';
+import { Button } from '@/components/ui/button'
+import { KeyRound } from 'lucide-react'
+import React from 'react'
+import { FcGoogle } from 'react-icons/fc'
+import { FaGithub } from 'react-icons/fa'
+import { supabaseClient } from '@/lib/supabase/client'
+import { useSearchParams } from 'next/navigation'
 
-const page = () => {
+const Page = () => {
+  const params = useSearchParams()
+  const next = params.get('next')
+
   const handleLoginWithOAuth = (provider: 'github' | 'google') => {
-    const supabase = supabaseClient();
+    const supabase = supabaseClient()
     supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: location.origin + '/auth/callback',
+        redirectTo: location.origin + '/auth/callback?next=' + next,
       },
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex items-center justify-center w-full h-screen">
@@ -45,7 +49,7 @@ const page = () => {
         <div className="glowBox -z-10"></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default Page
